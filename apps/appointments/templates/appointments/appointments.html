@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Your Appointments</title>
+	</head>
+	<body>
+		<div class="wrapper">
+			<a href="/log_out/">Log Out</a>
+			<h1>Hello, {{ user.name }}!</h1>
+			{% if messages %}
+				{% for message in messages %}
+				<p>{{ message }}</p>
+				{% endfor %}
+			{% endif %}
+			<h2>Here are your appointments for today: {{ date }}</h2>
+			<table>
+				<tr>
+					<th>Tasks</th>
+					<th>Time</th>
+					<th>Status</th>
+					<th>Action</th>
+				</tr>
+				{% for appointment in today %}
+				<tr>
+					<td>{{ appointment.tasks }}</td>
+					<td>{{ appointment.time }}</td>
+					<td>{{ appointment.status }}</td>
+					<td> <a href="/appointments/{{ appointment.id }}/">Edit</a> | <a href="/appointments/{{ appointment.id }}/delete/">Delete</a></td>
+				</tr>
+				{% endfor %}
+			</table>
+			<hr>
+			<h2>Your other appointments:</h2>
+			<table>
+				<tr>
+					<th>Tasks</th>
+					<th>Date</th>
+					<th>Time</th>
+					<th>Action</th>
+				</tr>
+				{% for appointment in upcoming %}
+				<tr>
+					<td>{{ appointment.tasks }}</td>
+					<td>{{ appointment.date }}</td>
+					<td>{{ appointment.time }}</td>
+					<td> <a href="/appointments/{{ appointment.id }}/">Edit</a> | <a href="/appointments/{{ appointment.id }}/delete/">Delete</a></td>
+				</tr>
+				{% endfor %}
+			</table>
+			<hr>
+			<h2>Add Appointment:</h2>
+			<form action="/appointments/new/" method="post">
+				{% csrf_token %}
+				<div class="input">
+					<label for="date">Date: <input type="date" name="date"></label>
+				</div>
+				<div class="input">
+					<label for="time">Time: <input type="time" name="time"></label>
+				</div>
+				<div class="input">
+					<label for="tasks">Tasks: <input type="text" name="tasks"></label>
+				</div>
+				<input type="submit" value="Add">
+			</form>
+		</div>
+	</body>
+</html>

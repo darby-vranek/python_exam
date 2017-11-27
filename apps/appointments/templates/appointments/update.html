@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Update Appointment</title>
+	</head>
+	<body>
+		<div class="wrapper">
+			<p><a href="/appointments/">Dashboard</a> | <a href="/log_out/">Log Out</a></p>
+			{% if messages %}
+				{% for message in messages %}
+					<p>{{ message }}</p>
+				{% endfor %}
+			{% endif %}
+			<form class="" action="/appointments/{{ appointment.id }}/update/" method="post">
+				{% csrf_token %}
+				<div class="input">
+					<label for="tasks">Tasks:</label>
+					<input type="text" name="tasks" value="{{ appointment.tasks }}">
+				</div>
+				<div class="input">
+					<label for="status">Status:</label>
+					<!-- I need to figure out how to make it select the already selected option -->
+					</option>
+					<select name="status">
+						{% if appointment.status == "Done" %}
+							<option value="Done" selected>Done</option>
+						{% else %}
+							<option value="Done">Done</option>
+						{% endif %}
+						{% if appointment.status == "Pending" %}
+							<option value="Pending" selected>Pending</option>
+						{% else %}
+							<option value="Pending">Pending</option>
+						{% endif %}
+						{% if appointment.status == "Missed" %}
+							<option value="Missed" selected>Missed</option>
+						{% else %}
+							<option value="Missed">Missed</option>
+						{% endif %}
+					</select>
+				</div>
+				<div class="input">
+					<label for="date">Date:</label>
+					<!-- I need to figure out how to feed the existing date into this, and ditto for the time -->
+					<input type="date" name="date" value="{{ appointment.date.isoformat }}">
+				</div>
+				<div class="input">
+					<label for="time">Time:</label>
+					<input type="time" name="time" value="{{ appointment.time.isoformat }}">
+				</div>
+				<input type="submit" value="Update">
+			</form>
+		</div>
+	</body>
+</html>
